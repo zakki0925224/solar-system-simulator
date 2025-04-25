@@ -1,12 +1,14 @@
 public class Saturn : Planet
 {
-    void Start()
+    protected override void Start()
     {
         this.OrbitRadiusKm = 1426666422.0f;
         this.OrbitSpeedKms = 9.69f;
-        this.RotationSpeedKms = 9.87f;
+        this.RotationSpeedKms = 0.09f;
         this.Angle = 0.0f;
         this.SetPlanetRadius(58232.0f);
+
+        base.Start();
     }
 
     protected override void Update()
