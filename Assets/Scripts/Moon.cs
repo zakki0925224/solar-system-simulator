@@ -2,10 +2,11 @@ public class Moon : Planet
 {
     void Start()
     {
-        this.OrbitRadius = 2.0f;
-        this.OrbitSpeed = 0.2f;
-        this.RotationSpeed = 5.0f;
+        this.OrbitRadiusKm = 384400.0f;
+        this.OrbitSpeedKms = 1.022f;
+        this.RotationSpeedKms = 0.0046f;
         this.Angle = 0.0f;
+        this.SetPlanetRadius(1737.4f);
     }
 
     protected override void Update()

@@ -2,16 +2,25 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    public Transform OrbitCenter { get; set; }
-    public float OrbitRadius { get; set; }
-    public float OrbitSpeed { get; set; }
+    const float ScaleFactor = 1f / 1000000f;
 
-    public float RotationSpeed { get; set; }
+    public Transform OrbitCenter { get; set; }
+    public float OrbitRadiusKm { get; set; }
+    public float OrbitSpeedKms { get; set; }
+
+    public float RotationSpeedKms { get; set; }
     public float Angle { get; set; }
+
+    public void SetPlanetRadius(float radius)
+    {
+        var scaledRadius = radius * ScaleFactor * 50f;
+        this.transform.localScale = new Vector3(scaledRadius, scaledRadius, scaledRadius);
+    }
 
     private void Rotate()
     {
-        this.transform.Rotate(Vector3.up, this.RotationSpeed * Time.deltaTime);
+        var scaledRotationSpeed = this.RotationSpeedKms * ScaleFactor;
+        this.transform.Rotate(Vector3.up, scaledRotationSpeed * Time.deltaTime);
     }
 
     private void Orbit()
@@ -19,9 +28,11 @@ public class Planet : MonoBehaviour
         if (this.OrbitCenter == null)
             return;
 
-        this.Angle += this.OrbitSpeed * Time.deltaTime;
-        var x = Mathf.Cos(this.Angle) * this.OrbitRadius;
-        var z = Mathf.Sin(this.Angle) * this.OrbitRadius;
+        var scaledOrbitSpeed = this.OrbitSpeedKms * ScaleFactor;
+        this.Angle += scaledOrbitSpeed * Time.deltaTime;
+        var scaledOrbitRadius = this.OrbitRadiusKm * ScaleFactor;
+        var x = Mathf.Cos(this.Angle) * scaledOrbitRadius;
+        var z = Mathf.Sin(this.Angle) * scaledOrbitRadius;
 
         this.transform.position = new Vector3(x, this.transform.position.y, z) + this.OrbitCenter.position;
 

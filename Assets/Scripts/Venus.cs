@@ -4,10 +4,11 @@ public class Venus : Planet
 {
     void Start()
     {
-        this.OrbitRadius = 15.0f;
-        this.OrbitSpeed = 0.08f;
-        this.RotationSpeed = 10.0f;
+        this.OrbitRadiusKm = 108208000.0f;
+        this.OrbitSpeedKms = 35.02f;
+        this.RotationSpeedKms = -0.0018f;
         this.Angle = 0.0f;
+        this.SetPlanetRadius(6051.8f);
     }
 
     protected override void Update()

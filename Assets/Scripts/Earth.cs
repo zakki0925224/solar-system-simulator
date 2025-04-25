@@ -2,10 +2,11 @@ public class Earth : Planet
 {
     void Start()
     {
-        this.OrbitRadius = 10.0f;
-        this.OrbitSpeed = 0.1f;
-        this.RotationSpeed = 15.0f;
+        this.OrbitRadiusKm = 149597870.7f;
+        this.OrbitSpeedKms = 29.78f;
+        this.RotationSpeedKms = 0.465f;
         this.Angle = 0.0f;
+        this.SetPlanetRadius(6371.0f);
     }
 
     protected override void Update()
