@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 
 public class Simulator : MonoBehaviour
 {
     public GameObject PlanetPrefab;
-    public float SizeScaleFactor = 1f / 1000000f;
-    public float SpeedScaleFactor = 1f / 100f;
+
+    public DateTime DateTime = DateTime.MinValue;
+
+    public readonly float SizeScaleFactor = 1f / 100000000f;
+    public readonly float SpeedScaleFactor = 8640f;
 
     void Start()
     {
@@ -39,7 +43,7 @@ public class Simulator : MonoBehaviour
 
         // trail
         var trailRenderer = planetObject.AddComponent<TrailRenderer>();
-        trailRenderer.startWidth = 1f;
+        trailRenderer.startWidth = 1.0f;
         trailRenderer.endWidth = 0f;
         trailRenderer.time = 50f;
         trailRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -60,5 +64,10 @@ public class Simulator : MonoBehaviour
         }
 
         return planetObject;
+    }
+
+    void Update()
+    {
+        this.DateTime = this.DateTime.AddSeconds(Time.deltaTime * this.SpeedScaleFactor);
     }
 }

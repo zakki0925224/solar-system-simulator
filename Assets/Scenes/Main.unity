@@ -318,6 +318,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1053969916}
   - component: {fileID: 1053969917}
+  - component: {fileID: 1053969918}
+  - component: {fileID: 1053969919}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -353,8 +355,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlanetPrefab: {fileID: 1703027185912380270, guid: b9ac3c656001ee844ad7f014ba854be5, type: 3}
-  SizeScaleFactor: 0.000001
-  SpeedScaleFactor: 0.01
+--- !u!114 &1053969918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053969914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f481e3b1e6ed54ebc498454b694b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 963194227}
+--- !u!114 &1053969919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053969914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f1bb5417ed2324da8ff3d64ff1c9e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 106535611439528141, guid: e97beae1ba45ea846a526cc0521f1e9d, type: 3}
+  Simulator: {fileID: 1053969917}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
