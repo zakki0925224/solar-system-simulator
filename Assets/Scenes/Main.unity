@@ -148,7 +148,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 5000
+  m_Range: 100000000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlanetPrefab: {fileID: 1703027185912380270, guid: b9ac3c656001ee844ad7f014ba854be5, type: 3}
+  SizeScaleFactor: 0.00000001
 --- !u!114 &1053969918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 963194227}
+  FollowerObject: {fileID: 0}
 --- !u!114 &1053969919
 MonoBehaviour:
   m_ObjectHideFlags: 0

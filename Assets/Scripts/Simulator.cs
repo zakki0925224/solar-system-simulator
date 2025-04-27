@@ -7,8 +7,22 @@ public class Simulator : MonoBehaviour
 
     public DateTime DateTime = DateTime.MinValue;
 
-    public readonly float SizeScaleFactor = 1f / 100000000f;
-    public readonly float SpeedScaleFactor = 8640f;
+    public float SizeScaleFactor = 1f / 100000000f;
+
+    private float _speedScaleFactor = 86400f; // 1day
+    public float SpeedScaleFactor
+    {
+        get => this._speedScaleFactor;
+        set
+        {
+            this._speedScaleFactor = value;
+            var planets = FindObjectsByType<Planet>(FindObjectsSortMode.None);
+            foreach (var planet in planets)
+            {
+                planet.SpeedScaleFactor = value;
+            }
+        }
+    }
 
     void Start()
     {

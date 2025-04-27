@@ -12,7 +12,7 @@ public class Planet : MonoBehaviour
     public float RadiusKm { get; set; } // km
 
     public float RotationSpeedKms { get; set; } // km/s
-    public float Angle { get; set; }
+    public float AngleDeg { get; set; }
 
     public void SetPlanetRadius(float radiusKm)
     {
@@ -21,7 +21,6 @@ public class Planet : MonoBehaviour
         this.transform.localScale = new Vector3(scaledRadius, scaledRadius, scaledRadius);
     }
 
-    // it works
     private void Rotate()
     {
         var selfRadiusM = this.RadiusKm * 1000f; // [m]
@@ -40,17 +39,17 @@ public class Planet : MonoBehaviour
         var orbitSpeedMps = this.OrbitSpeedKms * 1000f; // [m/s]
         var angularVelocityDeg = orbitSpeedMps / orbitRadiusM * Mathf.Rad2Deg; // [deg/s]
         var deltaAngleDeg = angularVelocityDeg * Time.deltaTime * this.SpeedScaleFactor;
-        this.Angle += deltaAngleDeg * Mathf.Deg2Rad;
+        this.AngleDeg += deltaAngleDeg;
 
-        var x = Mathf.Cos(this.Angle) * orbitRadiusM * this.SizeScaleFactor;
-        var z = Mathf.Sin(this.Angle) * orbitRadiusM * this.SizeScaleFactor;
+        var x = Mathf.Cos(this.AngleDeg * Mathf.Deg2Rad) * orbitRadiusM * this.SizeScaleFactor;
+        var z = Mathf.Sin(this.AngleDeg * Mathf.Deg2Rad) * orbitRadiusM * this.SizeScaleFactor;
 
         this.transform.position = this.OrbitCenter.position + new Vector3(x, 0f, z);
     }
 
     protected virtual void Start()
     {
-        Debug.Log($"{this.name}: OrbitRadiusKm: {this.OrbitRadiusKm} km, OrbitSpeedKms: {this.OrbitSpeedKms} km/s, RotationSpeedKms: {this.RotationSpeedKms} km/s, Angle: {this.Angle} rad");
+        Debug.Log($"{this.name}: OrbitRadiusKm: {this.OrbitRadiusKm} km, OrbitSpeedKms: {this.OrbitSpeedKms} km/s, RotationSpeedKms: {this.RotationSpeedKms} km/s, AngleDeg: {this.AngleDeg}, RadiusKm: {this.RadiusKm} km");
     }
 
     protected virtual void Update()

@@ -5,7 +5,7 @@ public class Mars : Planet
         this.OrbitRadiusKm = 227943824.0f;
         this.OrbitSpeedKms = 24.077f;
         this.RotationSpeedKms = 0.241f;
-        this.Angle = 0.0f;
+        this.AngleDeg = 25.2f;
         this.SetPlanetRadius(3389.5f);
 
         base.Start();

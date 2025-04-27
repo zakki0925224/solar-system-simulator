@@ -5,7 +5,7 @@ public class Earth : Planet
         this.OrbitRadiusKm = 149597870.7f;
         this.OrbitSpeedKms = 29.78f;
         this.RotationSpeedKms = 0.465f;
-        this.Angle = 0.0f;
+        this.AngleDeg = 23.4f;
         this.SetPlanetRadius(6371.0f);
 
         base.Start();

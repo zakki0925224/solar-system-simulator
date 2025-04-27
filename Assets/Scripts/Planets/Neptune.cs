@@ -5,7 +5,7 @@ public class Neptune : Planet
         this.OrbitRadiusKm = 4498396441.0f;
         this.OrbitSpeedKms = 5.43f;
         this.RotationSpeedKms = 0.1f;
-        this.Angle = 0.0f;
+        this.AngleDeg = 28.3f;
         this.SetPlanetRadius(24622.0f);
 
         base.Start();
