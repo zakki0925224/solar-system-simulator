@@ -5,10 +5,12 @@ public class UI : MonoBehaviour
 {
     public GameObject UIPrefab;
     public Simulator Simulator;
+    public CameraControl CameraControl;
 
     private UIDocument uIDocument;
     private Label dateTimeLabel;
     private DropdownField speedScaleDropdown;
+    private DropdownField cameraTargetDropdown;
 
     void Start()
     {
@@ -16,6 +18,7 @@ public class UI : MonoBehaviour
         this.uIDocument = uiObject.GetComponent<UIDocument>();
         this.dateTimeLabel = this.uIDocument.rootVisualElement.Q<Label>("DateTimeLabel");
         this.speedScaleDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("SpeedScaleDropdown");
+        this.cameraTargetDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("CameraTargetDropdown");
 
         this.speedScaleDropdown.RegisterValueChangedCallback(evt =>
         {
@@ -39,6 +42,12 @@ public class UI : MonoBehaviour
                 "100y/s" => 3153600000f,
                 _ => 0f
             };
+        });
+
+        this.cameraTargetDropdown.RegisterValueChangedCallback(evt =>
+        {
+            var obj = GameObject.Find(evt.newValue);
+            this.CameraControl.FollowerObject = obj;
         });
     }
 

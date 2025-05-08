@@ -384,6 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 106535611439528141, guid: e97beae1ba45ea846a526cc0521f1e9d, type: 3}
   Simulator: {fileID: 1053969917}
+  CameraControl: {fileID: 1053969918}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
