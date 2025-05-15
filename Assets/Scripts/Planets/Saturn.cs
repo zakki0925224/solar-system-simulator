@@ -4,7 +4,7 @@ public class Saturn : Planet
     {
         this.OrbitRadiusKm = 1426666422.0f;
         this.OrbitSpeedKms = 9.69f;
-        this.RotationSpeedKms = 0.09f;
+        this.RotationSpeedKms = -0.09f;
         this.AngleDeg = 3.12f;
         this.SetPlanetRadius(58232.0f);
 
