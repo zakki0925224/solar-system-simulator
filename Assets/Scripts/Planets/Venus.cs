@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Venus : Planet
 {
     protected override void Start()

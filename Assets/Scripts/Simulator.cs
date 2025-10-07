@@ -28,18 +28,18 @@ public class Simulator : MonoBehaviour
     {
         // generate planets
         var sunObject = CreatePlanet("Sun", null, Color.black);
-        var earthObject = CreatePlanet("Earth", sunObject.transform, Color.blue);
-        CreatePlanet("Moon", earthObject.transform, Color.gray);
-        CreatePlanet("Mercury", sunObject.transform, Color.red);
-        CreatePlanet("Venus", sunObject.transform, Color.yellow);
-        CreatePlanet("Mars", sunObject.transform, new Color(1f, 0.5f, 0f));
-        CreatePlanet("Jupiter", sunObject.transform, Color.magenta);
-        CreatePlanet("Saturn", sunObject.transform, Color.cyan);
-        CreatePlanet("Uranus", sunObject.transform, Color.green);
-        CreatePlanet("Neptune", sunObject.transform, Color.blue);
+        var earthObject = CreatePlanet("Earth", sunObject.transform, new Color(0.2f, 0.7f, 1f, 1f));
+        CreatePlanet("Moon", earthObject.transform, new Color(0.8f, 0.8f, 0.8f, 0.8f));
+        CreatePlanet("Mercury", sunObject.transform, new Color(0.7f, 0.7f, 0.7f, 1f));
+        CreatePlanet("Venus", sunObject.transform, new Color(1f, 0.9f, 0.4f, 1f));
+        CreatePlanet("Mars", sunObject.transform, new Color(1f, 0.3f, 0.1f, 1f));
+        CreatePlanet("Jupiter", sunObject.transform, new Color(1f, 0.6f, 0.3f, 1f));
+        CreatePlanet("Saturn", sunObject.transform, new Color(1f, 0.85f, 0.5f, 1f));
+        CreatePlanet("Uranus", sunObject.transform, new Color(0.4f, 0.9f, 1f, 1f));
+        CreatePlanet("Neptune", sunObject.transform, new Color(0.2f, 0.4f, 1f, 1f));
     }
 
-    private GameObject CreatePlanet(string name, Transform orbitCenter, Color trailColor)
+    private GameObject CreatePlanet(string name, Transform orbitCenter, Color orbitColor)
     {
         var planetObject = Instantiate(this.PlanetPrefab);
         planetObject.name = name;
@@ -55,15 +55,6 @@ public class Simulator : MonoBehaviour
             Debug.LogWarning($"Material for {name} not found. Using default material.");
         }
 
-        // trail
-        var trailRenderer = planetObject.AddComponent<TrailRenderer>();
-        trailRenderer.startWidth = 1.0f;
-        trailRenderer.endWidth = 0f;
-        trailRenderer.time = 50f;
-        trailRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        trailRenderer.startColor = trailColor;
-        trailRenderer.endColor = new Color(trailColor.r, trailColor.g, trailColor.b, 0f);
-
         var planetType = System.Type.GetType(name);
         if (planetType != null)
         {
@@ -71,6 +62,7 @@ public class Simulator : MonoBehaviour
             planet.OrbitCenter = orbitCenter;
             planet.SizeScaleFactor = this.SizeScaleFactor;
             planet.SpeedScaleFactor = this.SpeedScaleFactor;
+            planet.OrbitColor = orbitColor;
         }
         else
         {

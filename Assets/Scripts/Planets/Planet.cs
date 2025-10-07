@@ -14,6 +14,8 @@ public class Planet : MonoBehaviour
     public float RotationSpeedKms { get; set; } // km/s
     public float AngleDeg { get; set; }
 
+    public Color OrbitColor { get; set; } = Color.white;
+
     public void SetPlanetRadius(float radiusKm)
     {
         this.RadiusKm = radiusKm;
@@ -47,9 +49,27 @@ public class Planet : MonoBehaviour
         this.transform.position = this.OrbitCenter.position + new Vector3(x, 0f, z);
     }
 
+    private void CreateOrbitPath()
+    {
+        if (this.OrbitCenter == null || this.OrbitRadiusKm == 0)
+        {
+            Debug.LogWarning($"{this.name}: Cannot create orbit path (no orbit center or radius)");
+            return;
+        }
+
+        var orbitPathObject = new GameObject($"{this.name}_OrbitPath");
+        orbitPathObject.transform.parent = this.OrbitCenter;
+        var orbitPath = orbitPathObject.AddComponent<OrbitPath>();
+        orbitPath.Initialize(this, this.OrbitColor, 5f);
+
+        Debug.Log($"{this.name}: Orbit path created");
+    }
+
     protected virtual void Start()
     {
         Debug.Log($"{this.name}: OrbitRadiusKm: {this.OrbitRadiusKm} km, OrbitSpeedKms: {this.OrbitSpeedKms} km/s, RotationSpeedKms: {this.RotationSpeedKms} km/s, AngleDeg: {this.AngleDeg}, RadiusKm: {this.RadiusKm} km");
+
+        CreateOrbitPath();
     }
 
     protected virtual void Update()
