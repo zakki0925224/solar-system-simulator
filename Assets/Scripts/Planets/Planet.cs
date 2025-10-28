@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Planet : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Planet : MonoBehaviour
     public float AngleDeg { get; set; }
 
     public Color OrbitColor { get; set; } = Color.white;
+
+    private PlanetLabel planetLabel;
 
     public void SetPlanetRadius(float radiusKm)
     {
@@ -70,6 +73,36 @@ public class Planet : MonoBehaviour
         Debug.Log($"{this.name}: OrbitRadiusKm: {this.OrbitRadiusKm} km, OrbitSpeedKms: {this.OrbitSpeedKms} km/s, RotationSpeedKms: {this.RotationSpeedKms} km/s, AngleDeg: {this.AngleDeg}, RadiusKm: {this.RadiusKm} km");
 
         CreateOrbitPath();
+        CreatePlanetLabel();
+    }
+
+    private void CreatePlanetLabel()
+    {
+        var uiDocument = FindFirstObjectByType<UIDocument>();
+        var camera = Camera.main;
+
+        if (uiDocument == null)
+        {
+            Debug.LogWarning($"{this.name}: UIDocument not found, cannot create planet label");
+            return;
+        }
+
+        if (camera == null)
+        {
+            Debug.LogWarning($"{this.name}: Camera not found, cannot create planet label");
+            return;
+        }
+
+        this.planetLabel = this.gameObject.AddComponent<PlanetLabel>();
+        this.planetLabel.MainCamera = camera;
+        this.planetLabel.UIDocument = uiDocument;
+        this.planetLabel.TargetPlanet = this.transform;
+        this.planetLabel.PlanetName = this.name;
+
+        var scaledRadius = this.RadiusKm * 1000f * this.SizeScaleFactor * 50f;
+        this.planetLabel.Offset = new Vector3(0, scaledRadius * 1.2f, 0);
+
+        Debug.Log($"{this.name}: Planet label created");
     }
 
     protected virtual void Update()
