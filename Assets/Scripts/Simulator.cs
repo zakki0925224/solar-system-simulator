@@ -28,6 +28,8 @@ public class Simulator : MonoBehaviour
     {
         // generate planets
         var sunObject = CreatePlanet("Sun", null, Color.black);
+        sunObject.layer = LayerMask.NameToLayer("TransparentFX");
+
         var earthObject = CreatePlanet("Earth", sunObject.transform, new Color(0.2f, 0.7f, 1f, 1f));
         CreatePlanet("Moon", earthObject.transform, new Color(0.8f, 0.8f, 0.8f, 0.8f));
         CreatePlanet("Mercury", sunObject.transform, new Color(0.7f, 0.7f, 0.7f, 1f));
