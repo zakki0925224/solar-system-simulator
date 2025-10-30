@@ -36,7 +36,6 @@ public class LensFlareEffect : MonoBehaviour
         Vector3 worldPos = this.TargetObject.transform.position;
         Vector3 screenPos = this.MainCamera.WorldToScreenPoint(worldPos);
 
-        // カメラの視界内にあるか確認
         this.isVisible = screenPos.z > 0 &&
                         screenPos.x >= 0 && screenPos.x <= Screen.width &&
                         screenPos.y >= 0 && screenPos.y <= Screen.height;

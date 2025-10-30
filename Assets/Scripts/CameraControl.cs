@@ -8,11 +8,14 @@ public class CameraControl : MonoBehaviour
     public GameObject FollowerObject;
 
     private readonly float scrollSpeed = 50f;
+    private readonly float scrollSmoothTime = 0.1f;
     private readonly float moveSpeed = 100f;
     private readonly float lookSpeed = 100f;
     private readonly float minDistanceWithFollower = 5f;
     private float distanceWithFollower = 5f;
-    private Quaternion currentRotation;
+    private float targetDistanceWithFollower = 5f;
+    private float yaw = 0f;
+    private float pitch = 0f;
     private InputAction scrollAction;
     private InputAction moveAction;
     private InputAction lookAction;
@@ -42,7 +45,10 @@ public class CameraControl : MonoBehaviour
         this.rightClickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/rightButton");
         this.rightClickAction.Enable();
 
-        this.currentRotation = this.Camera.transform.rotation;
+        // rotation angles
+        var currentEuler = this.Camera.transform.eulerAngles;
+        this.yaw = currentEuler.y;
+        this.pitch = currentEuler.x;
     }
 
     private void HandleFreeMode()
@@ -51,8 +57,11 @@ public class CameraControl : MonoBehaviour
 
         // scroll
         var scroll = this.scrollAction.ReadValue<Vector2>().y;
-        var zoom = scroll * this.scrollSpeed;
-        baseTransform.position += baseTransform.forward * zoom;
+        if (Mathf.Abs(scroll) > 0.01f)
+        {
+            var zoom = scroll * this.scrollSpeed;
+            baseTransform.position += baseTransform.forward * zoom;
+        }
 
         // move
         var move = this.moveAction.ReadValue<Vector2>();
@@ -65,9 +74,14 @@ public class CameraControl : MonoBehaviour
             this.lookDelta = this.lookAction.ReadValue<Vector2>();
             if (this.lookDelta != Vector2.zero)
             {
-                var yaw = this.lookDelta.x * this.lookSpeed * Time.deltaTime;
-                var pitch = -this.lookDelta.y * this.lookSpeed * Time.deltaTime;
-                baseTransform.rotation *= Quaternion.Euler(pitch, yaw, 0);
+                var yawDelta = this.lookDelta.x * this.lookSpeed * Time.deltaTime;
+                var pitchDelta = -this.lookDelta.y * this.lookSpeed * Time.deltaTime;
+
+                this.yaw += yawDelta;
+                this.pitch += pitchDelta;
+                this.pitch = Mathf.Clamp(this.pitch, -89f, 89f);
+
+                baseTransform.rotation = Quaternion.Euler(this.pitch, this.yaw, 0);
             }
         }
     }
@@ -79,9 +93,15 @@ public class CameraControl : MonoBehaviour
 
         // scroll
         var scroll = this.scrollAction.ReadValue<Vector2>().y;
-        var zoom = scroll * this.scrollSpeed;
-        this.distanceWithFollower += zoom;
-        this.distanceWithFollower = Mathf.Clamp(this.distanceWithFollower, this.minDistanceWithFollower, float.MaxValue);
+        if (Mathf.Abs(scroll) > 0.01f)
+        {
+            var zoom = scroll * this.scrollSpeed;
+            this.targetDistanceWithFollower += zoom;
+            this.targetDistanceWithFollower = Mathf.Clamp(this.targetDistanceWithFollower, this.minDistanceWithFollower, float.MaxValue);
+        }
+
+        // ｓmooth interpolation
+        this.distanceWithFollower = Mathf.Lerp(this.distanceWithFollower, this.targetDistanceWithFollower, this.scrollSmoothTime);
 
         // look
         if (this.rightClickAction.IsPressed())
@@ -89,13 +109,17 @@ public class CameraControl : MonoBehaviour
             this.lookDelta = this.lookAction.ReadValue<Vector2>();
             if (this.lookDelta != Vector2.zero)
             {
-                var yaw = this.lookDelta.x * this.lookSpeed * Time.deltaTime;
-                var pitch = -this.lookDelta.y * this.lookSpeed * Time.deltaTime;
-                this.currentRotation *= Quaternion.Euler(pitch, yaw, 0);
+                var yawDelta = this.lookDelta.x * this.lookSpeed * Time.deltaTime;
+                var pitchDelta = -this.lookDelta.y * this.lookSpeed * Time.deltaTime;
+
+                this.yaw += yawDelta;
+                this.pitch += pitchDelta;
+                this.pitch = Mathf.Clamp(this.pitch, -89f, 89f);
             }
         }
 
-        var offset = this.currentRotation * new Vector3(0, 5f, Math.Abs(this.distanceWithFollower));
+        var rotation = Quaternion.Euler(this.pitch, this.yaw, 0);
+        var offset = rotation * new Vector3(0, 5f, Math.Abs(this.distanceWithFollower));
         baseTransform.position = followerPosition + offset;
         baseTransform.LookAt(followerPosition);
     }
