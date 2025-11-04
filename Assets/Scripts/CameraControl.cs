@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    public Camera Camera;
+    public Camera MainCamera;
     public GameObject FollowerObject;
 
     private readonly float scrollSpeed = 50f;
@@ -24,6 +24,18 @@ public class CameraControl : MonoBehaviour
 
     void Awake()
     {
+        if (this.MainCamera == null)
+        {
+            Debug.LogWarning("CameraControl: MainCamera is not assigned. Attempting to find Camera.main");
+            this.MainCamera = Camera.main;
+            if (this.MainCamera == null)
+            {
+                Debug.LogError("CameraControl: Could not find MainCamera! Camera control will not work.");
+                enabled = false;
+                return;
+            }
+        }
+
         // scroll
         this.scrollAction = new InputAction(type: InputActionType.Value, binding: "<Mouse>/scroll");
         this.scrollAction.Enable();
@@ -46,14 +58,16 @@ public class CameraControl : MonoBehaviour
         this.rightClickAction.Enable();
 
         // rotation angles
-        var currentEuler = this.Camera.transform.eulerAngles;
+        var currentEuler = this.MainCamera.transform.eulerAngles;
         this.yaw = currentEuler.y;
         this.pitch = currentEuler.x;
+
+        Debug.Log("CameraControl: Initialized successfully");
     }
 
     private void HandleFreeMode()
     {
-        var baseTransform = this.Camera.transform;
+        var baseTransform = this.MainCamera.transform;
 
         // scroll
         var scroll = this.scrollAction.ReadValue<Vector2>().y;
@@ -88,7 +102,7 @@ public class CameraControl : MonoBehaviour
 
     private void HandleFollowMode()
     {
-        var baseTransform = this.Camera.transform;
+        var baseTransform = this.MainCamera.transform;
         var followerPosition = this.FollowerObject.transform.position;
 
         // scroll
