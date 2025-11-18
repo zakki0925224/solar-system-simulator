@@ -27,17 +27,20 @@ public class Sun : Planet
         var lightObject = new GameObject("SunLight");
         lightObject.transform.parent = this.transform;
         lightObject.transform.localPosition = Vector3.zero;
+        lightObject.transform.localRotation = Quaternion.identity;
 
         var light = lightObject.AddComponent<Light>();
-        light.type = LightType.Point;
+        light.type = LightType.Directional;
         light.color = new Color(1f, 0.95f, 0.8f);
-        light.intensity = 2f;
-        light.range = 10000f;
+        light.intensity = 1.5f;
         light.shadows = LightShadows.Soft;
+        light.shadowStrength = 0.8f;
+        light.shadowNormalBias = 0.4f;
+        light.shadowBias = 0.05f;
 
         light.cullingMask = ~(1 << this.gameObject.layer);
 
-        Debug.Log($"{this.name}: Sun light setup complete");
+        lightObject.AddComponent<SunLightControl>();
     }
 
     private void SetupEmissiveMaterial()

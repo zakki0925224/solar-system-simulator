@@ -6,11 +6,13 @@ public class UI : MonoBehaviour
     public GameObject UIPrefab;
     public Simulator Simulator;
     public CameraControl CameraControl;
+    public SurfaceCameraControl SurfaceCameraControl;
 
     private UIDocument uIDocument;
     private Label dateTimeLabel;
     private DropdownField speedScaleDropdown;
     private DropdownField cameraTargetDropdown;
+    private Toggle surfaceCameraModeToggle;
 
     void Start()
     {
@@ -19,6 +21,7 @@ public class UI : MonoBehaviour
         this.dateTimeLabel = this.uIDocument.rootVisualElement.Q<Label>("DateTimeLabel");
         this.speedScaleDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("SpeedScaleDropdown");
         this.cameraTargetDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("CameraTargetDropdown");
+        this.surfaceCameraModeToggle = this.uIDocument.rootVisualElement.Q<Toggle>("SurfaceCameraModeToggle");
 
         this.speedScaleDropdown.RegisterValueChangedCallback(evt =>
         {
@@ -48,6 +51,27 @@ public class UI : MonoBehaviour
         {
             var obj = GameObject.Find(evt.newValue);
             this.CameraControl.FollowerObject = obj;
+        });
+
+        this.surfaceCameraModeToggle.RegisterValueChangedCallback(evt =>
+        {
+            this.SurfaceCameraControl.SetActive(evt.newValue);
+
+            if (evt.newValue)
+            {
+                this.cameraTargetDropdown.value = "Earth";
+                this.cameraTargetDropdown.SetEnabled(false);
+
+                var earthObj = GameObject.Find("Earth");
+                if (earthObj != null)
+                {
+                    this.CameraControl.FollowerObject = earthObj;
+                }
+            }
+            else
+            {
+                this.cameraTargetDropdown.SetEnabled(true);
+            }
         });
     }
 

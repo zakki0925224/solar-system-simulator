@@ -8,6 +8,7 @@ public class PlanetLabel : MonoBehaviour
     public Transform TargetPlanet;
     public string PlanetName;
     public Vector3 Offset = new Vector3(0, 1.5f, 0);
+    public SurfaceCameraControl SurfaceCameraControl;
 
     private Label label;
     private VisualElement labelContainer;
@@ -43,7 +44,6 @@ public class PlanetLabel : MonoBehaviour
             this.UIDocument.rootVisualElement.Add(this.labelContainer);
         }
 
-        // ラベルを作成
         this.label = new Label(this.PlanetName)
         {
             style =
@@ -73,6 +73,12 @@ public class PlanetLabel : MonoBehaviour
     {
         if (this.MainCamera == null || this.TargetPlanet == null || this.label == null)
             return;
+
+        if (this.SurfaceCameraControl != null && this.SurfaceCameraControl.IsActive)
+        {
+            this.label.style.display = DisplayStyle.None;
+            return;
+        }
 
         var worldPosition = this.TargetPlanet.position + this.Offset;
         var screenPosition = this.MainCamera.WorldToScreenPoint(worldPosition);

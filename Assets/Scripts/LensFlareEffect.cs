@@ -8,6 +8,7 @@ public class LensFlareEffect : MonoBehaviour
     public float FlareSize = 100f;
     public float MaxBrightness = 1f;
     public Color FlareColor = Color.white;
+    public SurfaceCameraControl SurfaceCameraControl;
 
     private bool isVisible = false;
     private Vector2 screenPosition;
@@ -33,6 +34,13 @@ public class LensFlareEffect : MonoBehaviour
             return;
         }
 
+        if (this.SurfaceCameraControl != null && this.SurfaceCameraControl.IsActive)
+        {
+            this.isVisible = false;
+            this.brightness = 0f;
+            return;
+        }
+
         Vector3 worldPos = this.TargetObject.transform.position;
         Vector3 screenPos = this.MainCamera.WorldToScreenPoint(worldPos);
 
@@ -53,12 +61,10 @@ public class LensFlareEffect : MonoBehaviour
             Vector3 directionToTarget = worldPos - this.MainCamera.transform.position;
             float distanceToTarget = directionToTarget.magnitude;
 
-            if (Physics.Raycast(this.MainCamera.transform.position, directionToTarget.normalized, out RaycastHit hit, distanceToTarget))
+            if (Physics.Raycast(this.MainCamera.transform.position, directionToTarget.normalized, out RaycastHit hit, distanceToTarget) &&
+                hit.collider.gameObject != this.TargetObject)
             {
-                if (hit.collider.gameObject != this.TargetObject)
-                {
-                    this.brightness = 0f;
-                }
+                this.brightness = 0f;
             }
         }
         else

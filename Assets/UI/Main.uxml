@@ -5,5 +5,6 @@
         <ui:Label text="2025/04/26 17:19" name="DateTimeLabel" style="color: rgb(255, 255, 255);" />
         <ui:DropdownField label="Speed scale:" choices="Pause,Real time,1min/s,30min/s,1h/s,12h/s,1d/s,5d/s,1w/s,1mon/s,6mon/s,1y/s,5y/s,10y/s,50y/s,100y/s" index="5" name="SpeedScaleDropdown" style="color: rgb(255, 255, 255); align-items: center; justify-content: space-evenly; align-self: center;" />
         <ui:DropdownField label="Camera target:" choices="Free,Earth,Jupiter,Mars,Mercury,Moon,Neptune,Saturn,Sun,Uranus,Venus" index="0" name="CameraTargetDropdown" style="color: rgb(255, 255, 255); align-items: center; justify-content: space-evenly; align-self: center;" />
+        <ui:Toggle label="Surface camera mode:" name="SurfaceCameraModeToggle" style="color: rgb(255, 255, 255);" />
     </ui:VisualElement>
 </ui:UXML>
