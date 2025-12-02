@@ -52,11 +52,53 @@ public class SurfaceCameraControl : MonoBehaviour
                 Debug.Log($"SurfaceCameraControl: Earth found at {EarthTransform.position}");
             }
         }
+
+        if (IsActive && MainCamera != null && EarthTransform != null)
+        {
+            CalculateCameraPosition();
+        }
     }
 
     void LateUpdate()
     {
         if (!IsActive || EarthTransform == null || MainCamera == null || Simulator == null)
+            return;
+
+        CalculateCameraPosition();
+    }
+
+    public void SetActive(bool value)
+    {
+        IsActive = value;
+
+        if (cameraControl != null)
+        {
+            cameraControl.enabled = !IsActive;
+
+            if (IsActive)
+            {
+                cameraControl.DisableInput();
+            }
+            else
+            {
+                cameraControl.EnableInput();
+            }
+        }
+
+        if (IsActive)
+        {
+            CalculateCameraPosition();
+            Debug.Log("Surface camera mode: ENABLED");
+        }
+        else
+        {
+            Debug.Log("Surface camera mode: DISABLED");
+        }
+    }
+
+    private void CalculateCameraPosition()
+    {
+        if (EarthTransform == null || MainCamera == null || Simulator == null)
             return;
 
         var earthRadius = EarthTransform.localScale.x / 2f;
@@ -83,9 +125,7 @@ public class SurfaceCameraControl : MonoBehaviour
 
         var worldPosition = EarthTransform.position + EarthTransform.rotation * localPosition;
 
-        MainCamera.transform.position = worldPosition;
-
-        Vector3 upDirection = (MainCamera.transform.position - EarthTransform.position).normalized;
+        Vector3 upDirection = (worldPosition - EarthTransform.position).normalized;
 
         Vector3 worldNorth = EarthTransform.TransformDirection(Vector3.up);
 
@@ -95,25 +135,7 @@ public class SurfaceCameraControl : MonoBehaviour
 
         Vector3 lookDirection = (southDirection + upDirection * 0.5f).normalized;
 
+        MainCamera.transform.position = worldPosition;
         MainCamera.transform.rotation = Quaternion.LookRotation(lookDirection, upDirection);
-    }
-
-    public void SetActive(bool value)
-    {
-        IsActive = value;
-
-        if (cameraControl != null)
-        {
-            cameraControl.enabled = !IsActive;
-        }
-
-        if (IsActive)
-        {
-            Debug.Log("Surface camera mode: ENABLED");
-        }
-        else
-        {
-            Debug.Log("Surface camera mode: DISABLED");
-        }
     }
 }

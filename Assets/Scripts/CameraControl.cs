@@ -6,6 +6,7 @@ public class CameraControl : MonoBehaviour
 {
     public Camera MainCamera;
     public GameObject FollowerObject;
+    public bool IsDisabled = false;
 
     private readonly float scrollSpeed = 50f;
     private readonly float scrollSmoothTime = 0.1f;
@@ -114,7 +115,7 @@ public class CameraControl : MonoBehaviour
             this.targetDistanceWithFollower = Mathf.Clamp(this.targetDistanceWithFollower, this.minDistanceWithFollower, float.MaxValue);
         }
 
-        // ｓmooth interpolation
+        // smooth interpolation
         this.distanceWithFollower = Mathf.Lerp(this.distanceWithFollower, this.targetDistanceWithFollower, this.scrollSmoothTime);
 
         // look
@@ -140,6 +141,9 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
+        if (IsDisabled)
+            return;
+
         if (this.FollowerObject != null)
         {
             HandleFollowMode();
@@ -148,6 +152,22 @@ public class CameraControl : MonoBehaviour
         {
             HandleFreeMode();
         }
+    }
+
+    public void DisableInput()
+    {
+        this.scrollAction?.Disable();
+        this.moveAction?.Disable();
+        this.lookAction?.Disable();
+        this.rightClickAction?.Disable();
+    }
+
+    public void EnableInput()
+    {
+        this.scrollAction?.Enable();
+        this.moveAction?.Enable();
+        this.lookAction?.Enable();
+        this.rightClickAction?.Enable();
     }
 
     void OnDestroy()
