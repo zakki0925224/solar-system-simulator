@@ -63,8 +63,6 @@ public class Sun : Planet
             }
 
             material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-
-            Debug.Log($"{this.name}: Emissive material setup complete");
         }
     }
 

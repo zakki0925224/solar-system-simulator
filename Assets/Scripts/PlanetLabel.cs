@@ -17,7 +17,6 @@ public class PlanetLabel : MonoBehaviour
     {
         if (this.UIDocument == null)
         {
-            Debug.LogError($"{this.PlanetName}: UIDocument is not assigned");
             return;
         }
 

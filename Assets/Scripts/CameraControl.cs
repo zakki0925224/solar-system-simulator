@@ -27,11 +27,9 @@ public class CameraControl : MonoBehaviour
     {
         if (this.MainCamera == null)
         {
-            Debug.LogWarning("CameraControl: MainCamera is not assigned. Attempting to find Camera.main");
             this.MainCamera = Camera.main;
             if (this.MainCamera == null)
             {
-                Debug.LogError("CameraControl: Could not find MainCamera! Camera control will not work.");
                 enabled = false;
                 return;
             }
@@ -62,8 +60,6 @@ public class CameraControl : MonoBehaviour
         var currentEuler = this.MainCamera.transform.eulerAngles;
         this.yaw = currentEuler.y;
         this.pitch = currentEuler.x;
-
-        Debug.Log("CameraControl: Initialized successfully");
     }
 
     private void HandleFreeMode()

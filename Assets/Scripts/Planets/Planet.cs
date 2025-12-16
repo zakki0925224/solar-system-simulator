@@ -54,24 +54,14 @@ public class Planet : MonoBehaviour
 
     private void CreateOrbitPath()
     {
-        if (this.OrbitCenter == null || this.OrbitRadiusKm == 0)
-        {
-            Debug.LogWarning($"{this.name}: Cannot create orbit path (no orbit center or radius)");
-            return;
-        }
-
         var orbitPathObject = new GameObject($"{this.name}_OrbitPath");
         orbitPathObject.transform.parent = this.OrbitCenter;
         var orbitPath = orbitPathObject.AddComponent<OrbitPath>();
         orbitPath.Initialize(this, this.OrbitColor, 5f);
-
-        Debug.Log($"{this.name}: Orbit path created");
     }
 
     protected virtual void Start()
     {
-        Debug.Log($"{this.name}: OrbitRadiusKm: {this.OrbitRadiusKm} km, OrbitSpeedKms: {this.OrbitSpeedKms} km/s, RotationSpeedKms: {this.RotationSpeedKms} km/s, AngleDeg: {this.AngleDeg}, RadiusKm: {this.RadiusKm} km");
-
         CreateOrbitPath();
         CreatePlanetLabel();
     }
@@ -81,18 +71,6 @@ public class Planet : MonoBehaviour
         var uiDocument = FindFirstObjectByType<UIDocument>();
         var camera = Camera.main;
 
-        if (uiDocument == null)
-        {
-            Debug.LogWarning($"{this.name}: UIDocument not found, cannot create planet label");
-            return;
-        }
-
-        if (camera == null)
-        {
-            Debug.LogWarning($"{this.name}: Camera not found, cannot create planet label");
-            return;
-        }
-
         this.planetLabel = this.gameObject.AddComponent<PlanetLabel>();
         this.planetLabel.MainCamera = camera;
         this.planetLabel.UIDocument = uiDocument;
@@ -101,8 +79,6 @@ public class Planet : MonoBehaviour
 
         var scaledRadius = this.RadiusKm * 1000f * this.SizeScaleFactor * 50f;
         this.planetLabel.Offset = new Vector3(0, scaledRadius * 1.2f, 0);
-
-        Debug.Log($"{this.name}: Planet label created");
     }
 
     protected virtual void Update()

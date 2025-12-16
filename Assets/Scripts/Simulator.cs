@@ -52,10 +52,6 @@ public class Simulator : MonoBehaviour
         {
             planetObject.GetComponent<Renderer>().material = material;
         }
-        else
-        {
-            Debug.LogWarning($"Material for {name} not found. Using default material.");
-        }
 
         var planetType = System.Type.GetType(name);
         if (planetType != null)
@@ -65,10 +61,6 @@ public class Simulator : MonoBehaviour
             planet.SizeScaleFactor = this.SizeScaleFactor;
             planet.SpeedScaleFactor = this.SpeedScaleFactor;
             planet.OrbitColor = orbitColor;
-        }
-        else
-        {
-            throw new System.Exception($"Planet type {name} not found.");
         }
 
         return planetObject;

@@ -19,16 +19,7 @@ public class DistanceRuler : MonoBehaviour
         }
 
         cameraControl = FindFirstObjectByType<CameraControl>();
-        if (cameraControl == null)
-        {
-            Debug.LogWarning("DistanceRuler: CameraControl not found!");
-        }
-
         simulator = FindFirstObjectByType<Simulator>();
-        if (simulator == null)
-        {
-            Debug.LogWarning("DistanceRuler: Simulator not found!");
-        }
 
         GameObject mainLineObj = new GameObject("RulerMainLine");
         mainLineObj.transform.SetParent(transform);
@@ -58,7 +49,6 @@ public class DistanceRuler : MonoBehaviour
             if (sun != null)
             {
                 sunTransform = sun.transform;
-                Debug.Log("DistanceRuler: Sun found and set");
             }
         }
 

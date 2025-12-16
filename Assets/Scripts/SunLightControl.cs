@@ -11,7 +11,6 @@ public class SunLightControl : MonoBehaviour
         directionalLight = GetComponent<Light>();
         if (directionalLight == null || directionalLight.type != LightType.Directional)
         {
-            Debug.LogWarning("SunLightController: Directional Light component not found!");
             enabled = false;
             return;
         }
@@ -19,7 +18,6 @@ public class SunLightControl : MonoBehaviour
         sunTransform = transform.parent;
         if (sunTransform == null)
         {
-            Debug.LogWarning("SunLightController: Parent (Sun) transform not found!");
             enabled = false;
             return;
         }

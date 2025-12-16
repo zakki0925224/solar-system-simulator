@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6457933341124896651}
   - component: {fileID: 3324451921075800113}
   m_Layer: 5
-  m_Name: UIDocument
+  m_Name: UIMoonLandscapePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: 932315a296be99744bc9389604f0fa01, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 34a67964bbfae4e42a3d1e11eb0a9c10, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 8ab461ad93273cefb88efbc504febaa9, type: 3}
   m_SortingOrder: 0
+  m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}

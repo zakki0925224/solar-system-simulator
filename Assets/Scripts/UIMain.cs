@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class UI : MonoBehaviour
+public class UIMain : MonoBehaviour
 {
     public GameObject UIPrefab;
     public Simulator Simulator;
@@ -13,6 +14,7 @@ public class UI : MonoBehaviour
     private DropdownField speedScaleDropdown;
     private DropdownField cameraTargetDropdown;
     private Toggle surfaceCameraModeToggle;
+    private Button moonExplorationModeButton;
 
     void Start()
     {
@@ -22,6 +24,7 @@ public class UI : MonoBehaviour
         this.speedScaleDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("SpeedScaleDropdown");
         this.cameraTargetDropdown = this.uIDocument.rootVisualElement.Q<DropdownField>("CameraTargetDropdown");
         this.surfaceCameraModeToggle = this.uIDocument.rootVisualElement.Q<Toggle>("SurfaceCameraModeToggle");
+        this.moonExplorationModeButton = this.uIDocument.rootVisualElement.Q<Button>("MoonExplorationModeButton");
 
         this.speedScaleDropdown.RegisterValueChangedCallback(evt =>
         {
@@ -73,6 +76,11 @@ public class UI : MonoBehaviour
                 this.cameraTargetDropdown.SetEnabled(true);
             }
         });
+
+        this.moonExplorationModeButton.clicked += () =>
+        {
+            SceneManager.LoadScene("Scenes/MoonLandscape");
+        };
     }
 
     void Update()

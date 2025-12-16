@@ -16,7 +16,6 @@ public class SurfaceCameraControl : MonoBehaviour
     {
         if (MainCamera == null)
         {
-            Debug.LogError("SurfaceCameraControl: MainCamera is not assigned!");
             enabled = false;
             return;
         }
@@ -26,19 +25,12 @@ public class SurfaceCameraControl : MonoBehaviour
             Simulator = FindFirstObjectByType<Simulator>();
             if (Simulator == null)
             {
-                Debug.LogError("SurfaceCameraControl: Simulator not found!");
                 enabled = false;
                 return;
             }
         }
 
         cameraControl = MainCamera.GetComponent<CameraControl>();
-        if (cameraControl == null)
-        {
-            Debug.LogWarning("SurfaceCameraControl: CameraControl component not found on MainCamera");
-        }
-
-        Debug.Log("SurfaceCameraControl: Initialized");
     }
 
     void Update()
@@ -49,7 +41,6 @@ public class SurfaceCameraControl : MonoBehaviour
             if (earthObj != null)
             {
                 EarthTransform = earthObj.transform;
-                Debug.Log($"SurfaceCameraControl: Earth found at {EarthTransform.position}");
             }
         }
 
@@ -88,11 +79,6 @@ public class SurfaceCameraControl : MonoBehaviour
         if (IsActive)
         {
             CalculateCameraPosition();
-            Debug.Log("Surface camera mode: ENABLED");
-        }
-        else
-        {
-            Debug.Log("Surface camera mode: DISABLED");
         }
     }
 
@@ -112,11 +98,6 @@ public class SurfaceCameraControl : MonoBehaviour
         );
 
         var earthComponent = EarthTransform.GetComponent<Earth>();
-        if (earthComponent == null)
-        {
-            Debug.LogError("SurfaceCameraControl: Earth component not found!");
-            return;
-        }
 
         var earthRadiusKm = earthComponent.RadiusKm;
         var heightScaled = (HeightAboveSurfaceKm / earthRadiusKm) * earthRadius;
