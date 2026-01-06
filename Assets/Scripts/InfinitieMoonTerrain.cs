@@ -44,7 +44,23 @@ public class InfiniteMoonTerrain : MonoBehaviour
             return;
         }
 
+        MeshFilter mf = terrainPrefab.GetComponentInChildren<MeshFilter>();
+        if (mf != null && mf.sharedMesh != null)
+        {
+            Vector3 meshSize = mf.sharedMesh.bounds.size;
+            Vector3 scale = terrainPrefab.transform.localScale;
+            float detectedSize = Mathf.Max(meshSize.x * scale.x, meshSize.z * scale.z);
+
+            if (Mathf.Abs(detectedSize - chunkSize) > 1f)
+            {
+                Debug.Log($"InfiniteMoonTerrain: Auto-adjusting Chunk Size from {chunkSize} to {detectedSize} based on prefab mesh bounds.");
+                chunkSize = detectedSize;
+            }
+        }
+
         UpdateVisibleChunks();
+
+        AdjustPlayerHeight();
     }
 
     void Update()
@@ -102,6 +118,25 @@ public class InfiniteMoonTerrain : MonoBehaviour
             {
                 terrainChunks.Add(chunkCoord, new TerrainChunk(chunkCoord, chunkSize, transform, terrainPrefab, this));
             }
+        }
+    }
+
+    void AdjustPlayerHeight()
+    {
+        if (viewer == null) return;
+
+        Vector3 rayOrigin = new Vector3(viewer.position.x, 500f, viewer.position.z);
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1000f))
+        {
+            viewer.position = hit.point + Vector3.up * 2f;
+            Debug.Log($"InfiniteMoonTerrain: Adjusted player height to {viewer.position.y} (Ground at {hit.point.y})");
+        }
+        else
+        {
+            viewer.position = new Vector3(viewer.position.x, 50f, viewer.position.z);
+            Debug.Log("InfiniteMoonTerrain: Ground not found below player, moving to height 50f");
         }
     }
 
